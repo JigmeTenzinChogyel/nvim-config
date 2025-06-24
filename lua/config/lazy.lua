@@ -24,6 +24,9 @@ vim.cmd("set shiftwidth=2")
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
+vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true, desc = "Toggle Neo-tree" })
+vim.keymap.set('n', '<leader>n', ':Neotree focus<CR>', { desc = "Focus Neo-tree" })
+vim.keymap.set('n', '<leader>r', ':Neotree reveal<CR>', { desc = "Reveal current file in Neo-tree" })
 
 -- 🔧 THIS WAS MISSING — it actually starts Lazy.nvim
 require("lazy").setup({
