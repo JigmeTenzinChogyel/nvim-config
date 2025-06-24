@@ -18,6 +18,8 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
       local lspconfig = require("lspconfig")
 
       -- 🧠 Attach LSP keymaps only when a server attaches
@@ -25,13 +27,19 @@ return {
         local opts = { noremap = true, silent = true, buffer = bufnr }
         local keymap = vim.keymap.set
 
-        keymap('n', 'K', vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Info" }))
-        keymap('n', 'gd', vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to Definition" }))
-        keymap('n', '<leader>ca', vim.lsp.buf.code_action, vim.tbl_extend("force", opts, { desc = "Code Action" }))
+        keymap("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Info" }))
+        keymap("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Go to Definition" }))
+        keymap(
+          "n",
+          "<leader>ca",
+          vim.lsp.buf.code_action,
+          vim.tbl_extend("force", opts, { desc = "Code Action" })
+        )
       end
 
       -- 🧪 Setup servers
       lspconfig.lua_ls.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
         settings = {
           Lua = {
@@ -43,17 +51,19 @@ return {
       })
 
       lspconfig.ts_ls.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
       })
 
       lspconfig.gopls.setup({
+        capabilities = capabilities,
         on_attach = on_attach,
       })
 
       -- ✅ Show diagnostics inline
       vim.diagnostic.config({
         virtual_text = {
-          prefix = '●',
+          prefix = "●",
           spacing = 2,
         },
         signs = true,
@@ -78,4 +88,3 @@ return {
     end,
   },
 }
-

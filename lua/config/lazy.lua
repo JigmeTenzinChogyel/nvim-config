@@ -16,6 +16,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
+vim.opt.number = true           -- Show absolute line numbers
+vim.opt.relativenumber = true   -- Show relative line numbers (optional)
 
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
