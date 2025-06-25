@@ -1,40 +1,57 @@
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons", -- optional, for file icons
-    "MunifTanjim/nui.nvim",
-    -- {"3rd/image.nvim", opts = {}}, -- optional image preview
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
+      "MunifTanjim/nui.nvim",
+    },
+    lazy = false,
+    config = function()
+      vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>n", ":Neotree focus<CR>", { noremap = true, silent = true })
+      vim.keymap.set("n", "<leader>r", ":Neotree reveal<CR>", { noremap = true, silent = true })
+
+      require("neo-tree").setup({
+        close_if_last_window = true,
+        popup_border_style = "rounded",
+        enable_git_status = true,
+        enable_diagnostics = true,
+
+        default_component_configs = {
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "",
+            default = "",
+            highlight = "NeoTreeFileIcon",
+          },
+        },
+
+        window = {
+          position = "left",
+          width = 40,
+          mappings = {
+            ["<space>"] = "none",
+            ["l"] = "open",
+            ["h"] = "close_node",
+            ["<cr>"] = "open",
+            ["o"] = "open",
+            ["s"] = "open_split",
+            ["v"] = "open_vsplit",
+            ["t"] = "open_tabnew",
+          },
+        },
+
+        filesystem = {
+          filtered_items = {
+            visible = false,
+            hide_dotfiles = false,
+            hide_gitignored = false,
+          },
+        },
+      })
+    end,
   },
-  lazy = false, -- load immediately
-  config = function()
-    require("neo-tree").setup({
-      close_if_last_window = true, -- closes Neo-tree if it's the last window
-      popup_border_style = "rounded", -- or "single", "double", "solid"
-      enable_git_status = true,
-      enable_diagnostics = true,
-
-      window = {
-        position = "left", -- "left", "right", "top", "bottom"
-        width = 30,
-        mappings = {
-          ["<space>"] = "none", -- disable space key
-          ["l"] = "open", -- open file or expand directory
-          ["h"] = "close_node", -- collapse directory
-          ["<cr>"] = "open",
-          ["o"] = "open",
-        },
-      },
-
-      filesystem = {
-        filtered_items = {
-          visible = false, -- show filtered items in the tree
-          hide_dotfiles = true,
-          hide_gitignored = true,
-        },
-      },
-    })
-  end,
 }
-

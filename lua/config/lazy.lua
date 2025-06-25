@@ -17,7 +17,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 vim.opt.number = true           -- Show absolute line numbers
-vim.opt.relativenumber = true   -- Show relative line numbers (optional)
+vim.opt.relativenumber = false   -- Show relative line numbers (optional)
 
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
@@ -26,11 +26,21 @@ vim.cmd("set shiftwidth=2")
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
-vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true, desc = "Toggle Neo-tree" })
-vim.keymap.set('n', '<leader>n', ':Neotree focus<CR>', { desc = "Focus Neo-tree" })
-vim.keymap.set('n', '<leader>r', ':Neotree reveal<CR>', { desc = "Reveal current file in Neo-tree" })
 
--- 🔧 THIS WAS MISSING — it actually starts Lazy.nvim
+-- Navigate buffers
+vim.keymap.set('n', '<leader>l', ':bnext<CR>', { desc = "Next buffer" })
+vim.keymap.set('n', '<leader>h', ':bprevious<CR>', { desc = "Previous buffer" })
+
+-- Delete (close) buffer
+vim.keymap.set('n', '<leader>q', ':bd<CR>', { desc = "Delete current buffer" })
+
+-- Force delete buffer (if it's stubborn)
+vim.keymap.set('n', '<leader>Q', ':bd!<CR>', { desc = "Force delete buffer" })
+
+-- List buffers (optional if using Telescope)
+vim.keymap.set('n', '<leader>bb', ':ls<CR>:b<Space>', { desc = "List and switch buffers" })
+
+-- 🔧 THIS WAS MISSING — it actually starts Lazy.nvimtools
 require("lazy").setup({
   spec = {
     { import = "plugins" },
