@@ -7,6 +7,7 @@ return {
     require("catppuccin").setup({
       flavour = "mocha", -- mocha, latte, frappe, macchiato
       term_colors = true,
+      transparent_background = true,
     })
     vim.cmd("colorscheme catppuccin")
   end,
