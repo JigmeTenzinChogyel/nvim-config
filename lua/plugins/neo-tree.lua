@@ -19,6 +19,25 @@ return {
 				enable_git_status = true,
 				enable_diagnostics = true,
 
+				window = {
+					position = "float",
+					mapping_options = {
+						noremap = true,
+						nowait = true,
+					},
+					-- width = 40,
+					mappings = {
+						["l"] = "open",
+						["h"] = "close_node",
+						-- ["<cr>"] = "open",
+						-- ["<space>"] = "none",
+						-- ["o"] = "open",
+						-- ["s"] = "open_split",
+						-- ["v"] = "open_vsplit",
+						-- ["t"] = "open_tabnew",
+					},
+				},
+
 				default_component_configs = {
 					indent = {
 						indent_size = 2,
@@ -89,29 +108,10 @@ return {
 					},
 				},
 
-				window = {
-					position = "float",
-					mapping_options = {
-						noremap = true,
-						nowait = true,
-					},
-					-- width = 40,
-					mappings = {
-						["l"] = "open",
-						["h"] = "close_node",
-						-- ["<cr>"] = "open",
-						-- ["<space>"] = "none",
-						-- ["o"] = "open",
-						-- ["s"] = "open_split",
-						-- ["v"] = "open_vsplit",
-						-- ["t"] = "open_tabnew",
-					},
-				},
-
 				filesystem = {
 					follow_current_file = {
-						enabled = true, -- same as before
-						leave_dirs_open = false, -- optional: auto-collapse other dirs
+						enabled = true,
+						-- leave_dirs_open = false,
 					},
 					filtered_items = {
 						visible = true,

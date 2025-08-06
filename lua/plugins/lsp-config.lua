@@ -28,10 +28,7 @@ return {
 				local keymap = vim.keymap.set
 
 				keymap("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Info" }))
-				keymap("n", "gd", function()
-					vim.cmd("vsplit")
-					vim.lsp.buf.definition()
-				end, vim.tbl_extend("force", opts, { desc = "Go to Definition (Vertical Split)" }))
+				keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Telescope Go to Definition" })
 				keymap(
 					"n",
 					"<leader>ca",
