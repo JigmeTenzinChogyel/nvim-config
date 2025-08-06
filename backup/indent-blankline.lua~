@@ -1,0 +1,58 @@
+return {
+	"lukas-reineke/indent-blankline.nvim",
+	event = { "BufReadPre", "BufNewFile" },
+	main = "ibl",
+	config = function()
+		local highlight = {
+			"RainbowRed",
+			"RainbowYellow",
+			"RainbowBlue",
+			"RainbowOrange",
+			"RainbowGreen",
+			"RainbowViolet",
+			"RainbowCyan",
+		}
+		local hooks = require("ibl.hooks")
+		hooks.register(hooks.type.HIGHLIGHT_SETUP, function()
+			-- Much dimmer, more subtle colors (reduced opacity/brightness)
+			vim.api.nvim_set_hl(0, "RainbowRed", { fg = "#6E3B41" }) -- Dimmed from #E06C75
+			vim.api.nvim_set_hl(0, "RainbowYellow", { fg = "#6B5D3F" }) -- Dimmed from #E5C07B
+			vim.api.nvim_set_hl(0, "RainbowBlue", { fg = "#3B5A6B" }) -- Dimmed from #61AFEF
+			vim.api.nvim_set_hl(0, "RainbowOrange", { fg = "#665247" }) -- Dimmed from #D19A66
+			vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#4E5E40" }) -- Dimmed from #98C379
+			vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#5E4162" }) -- Dimmed from #C678DD
+			vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#3B5A5E" }) -- Dimmed from #56B6C2
+		end)
+		require("ibl").setup({
+			indent = {
+				highlight = highlight,
+				char = "│", -- Thinner character options: "│", "┊", "┆", "¦", "┊", "⋮", "⁞", "⸽"
+				-- char = "┊",  -- Even thinner dotted line
+				-- char = "·",  -- Minimal dots
+			},
+			scope = {
+				enabled = true,
+				show_start = true,
+				show_end = false,
+				injected_languages = false,
+				highlight = highlight,
+				priority = 500,
+			},
+			exclude = {
+				filetypes = {
+					"help",
+					"alpha",
+					"dashboard",
+					"neo-tree",
+					"Trouble",
+					"trouble",
+					"lazy",
+					"mason",
+					"notify",
+					"toggleterm",
+					"lazyterm",
+				},
+			},
+		})
+	end,
+}

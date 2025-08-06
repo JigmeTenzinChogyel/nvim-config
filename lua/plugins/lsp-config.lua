@@ -10,7 +10,7 @@ return {
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "ts_ls", "gopls" },
+				ensure_installed = { "lua_ls", "ts_ls", "gopls", "pyright", "rust_analyzer" },
 				automatic_installation = true,
 			})
 		end,
@@ -28,13 +28,20 @@ return {
 				local keymap = vim.keymap.set
 
 				keymap("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover Info" }))
+				keymap("n", "<C-k>", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, { desc = "Signature Help" }))
 				keymap("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { desc = "Telescope Go to Definition" })
+				keymap("n", "gr", "<cmd>Telescope lsp_references<CR>", { desc = "Telescope References" })
+				keymap("n", "gi", "<cmd>Telescope lsp_implementations<CR>", { desc = "Telescope Implementations" })
+				keymap("n", "<leader>rn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename Symbol" }))
 				keymap(
 					"n",
 					"<leader>ca",
 					vim.lsp.buf.code_action,
 					vim.tbl_extend("force", opts, { desc = "Code Action" })
 				)
+				keymap("n", "[d", vim.diagnostic.goto_prev, vim.tbl_extend("force", opts, { desc = "Previous Diagnostic" }))
+				keymap("n", "]d", vim.diagnostic.goto_next, vim.tbl_extend("force", opts, { desc = "Next Diagnostic" }))
+				keymap("n", "<leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Open Diagnostic Float" }))
 			end
 
 			-- 🧪 Setup servers
@@ -60,16 +67,47 @@ return {
 				on_attach = on_attach,
 			})
 
+			lspconfig.pyright.setup({
+				capabilities = capabilities,
+				on_attach = on_attach,
+			})
+
+			lspconfig.rust_analyzer.setup({
+				capabilities = capabilities,
+				on_attach = on_attach,
+				settings = {
+					["rust-analyzer"] = {
+						checkOnSave = {
+							command = "clippy",
+						},
+					},
+				},
+			})
+
 			-- ✅ Show diagnostics inline
 			vim.diagnostic.config({
 				virtual_text = {
 					prefix = "●",
 					spacing = 2,
+					source = "if_many",
 				},
-				signs = true,
+				signs = {
+					text = {
+						[vim.diagnostic.severity.ERROR] = "✘",
+						[vim.diagnostic.severity.WARN] = "▲",
+						[vim.diagnostic.severity.HINT] = "⚑",
+						[vim.diagnostic.severity.INFO] = "»",
+					},
+				},
 				underline = true,
-				update_in_insert = true,
+				update_in_insert = false,
 				severity_sort = true,
+				float = {
+					border = "rounded",
+					source = "always",
+					header = "",
+					prefix = "",
+				},
 			})
 
 			-- 💡 Optional: diagnostics in floating window on hover
