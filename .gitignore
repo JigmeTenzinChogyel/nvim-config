@@ -1,0 +1,41 @@
+# Neovim temporary files
+*.swp
+*.swo
+*.swn
+*.swl
+*.swm
+*.swk
+*~
+
+# Backup files
+backup/
+*.bak
+*.backup
+*~
+
+# Swap files directory
+swap/
+
+# Undo files directory
+undo/
+
+# Plugin manager data
+.lazy-lock.json
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Vim session files
+Session.vim
+.session
+
+# LSP logs
+lsp.log
+
+# Mason installed binaries (if any)
+mason/
+
+# Temporary directories
+tmp/
+temp/

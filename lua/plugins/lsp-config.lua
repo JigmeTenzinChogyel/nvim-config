@@ -20,8 +20,6 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-			local lspconfig = require("lspconfig")
-
 			-- 🧠 Attach LSP keymaps only when a server attaches
 			local on_attach = function(_, bufnr)
 				local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -44,8 +42,11 @@ return {
 				keymap("n", "<leader>d", vim.diagnostic.open_float, vim.tbl_extend("force", opts, { desc = "Open Diagnostic Float" }))
 			end
 
-			-- 🧪 Setup servers
-			lspconfig.lua_ls.setup({
+			-- 🧪 Setup servers using vim.lsp.config
+			vim.lsp.config.lua_ls = {
+				cmd = { "lua-language-server" },
+				filetypes = { "lua" },
+				root_markers = { ".luarc.json", ".luarc.jsonc", ".luacheckrc", ".stylua.toml", "stylua.toml", "selene.toml", "selene.yml" },
 				capabilities = capabilities,
 				on_attach = on_attach,
 				settings = {
@@ -55,24 +56,36 @@ return {
 						},
 					},
 				},
-			})
+			}
 
-			lspconfig.ts_ls.setup({
+			vim.lsp.config.ts_ls = {
+				cmd = { "typescript-language-server", "--stdio" },
+				filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+				root_markers = { "tsconfig.json", "package.json", "jsconfig.json", ".git" },
 				capabilities = capabilities,
 				on_attach = on_attach,
-			})
+			}
 
-			lspconfig.gopls.setup({
+			vim.lsp.config.gopls = {
+				cmd = { "gopls" },
+				filetypes = { "go", "gomod", "gowork", "gotmpl" },
+				root_markers = { "go.mod", ".git", "go.work" },
 				capabilities = capabilities,
 				on_attach = on_attach,
-			})
+			}
 
-			lspconfig.pyright.setup({
+			vim.lsp.config.pyright = {
+				cmd = { "pyright-langserver", "--stdio" },
+				filetypes = { "python" },
+				root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", "pyrightconfig.json", ".git" },
 				capabilities = capabilities,
 				on_attach = on_attach,
-			})
+			}
 
-			lspconfig.rust_analyzer.setup({
+			vim.lsp.config.rust_analyzer = {
+				cmd = { "rust-analyzer" },
+				filetypes = { "rust" },
+				root_markers = { "Cargo.toml", "rust-project.json" },
 				capabilities = capabilities,
 				on_attach = on_attach,
 				settings = {
@@ -82,7 +95,7 @@ return {
 						},
 					},
 				},
-			})
+			}
 
 			-- ✅ Show diagnostics inline
 			vim.diagnostic.config({
